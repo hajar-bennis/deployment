@@ -149,7 +149,7 @@ def build_dataset(
         on="timestamp",
         by="machine",
         direction="nearest",
-        tolerance=pd.Timedelta(minutes=tolerance_minutes),
+        tolerance=pd.Timedelta(minutes=int(tolerance_minutes)),
     )
     before = len(sensors)
     sensors = sensors.dropna(subset=["pressure_bar"])
@@ -166,7 +166,7 @@ def build_dataset(
 
     sensors = sensors.sort_values(["machine", "timestamp"]).reset_index(drop=True)
     sensors["panne"] = 0
-    window = pd.Timedelta(hours=window_hours)
+    window = pd.Timedelta(hours=int(window_hours))
     # [PÉDAGOGIE] ITÉRATION — appliquer la même règle à chaque élément permet de raisonner sur un
     # [PÉDAGOGIE] invariant stable.
     for row in inc.itertuples():
